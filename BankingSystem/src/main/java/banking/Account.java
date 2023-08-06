@@ -39,6 +39,10 @@ public abstract class Account implements AccountInterface{
         return this.balance;
 	}
 
+	public void setBalance(Double balance){
+		this.balance = balance;
+	}
+
 	public Long getAccountNumber() {
 		// complete the function
         return this.accountNumber;
