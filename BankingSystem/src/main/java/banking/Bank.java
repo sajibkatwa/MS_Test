@@ -1,6 +1,7 @@
 package banking;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Private Variables:<br>
@@ -11,6 +12,9 @@ public class Bank implements BankInterface {
 
 	public Bank() {
 		// complete the function
+		if(accounts == null){
+			accounts = new LinkedHashMap<>();
+		}
 	}
 
 	private Account getAccount(Long accountNumber) {
@@ -20,13 +24,36 @@ public class Bank implements BankInterface {
 
 	public Long openCommercialAccount(Company company, int pin, double startingDeposit) {
 		// complete the function
-        return -1L;
+		Account lastAccount =getLast();
+		Long accountNumber = lastAccount == null ? 1l : lastAccount.getAccountNumber()+1;
+		CommercialAccount account = new CommercialAccount(company, accountNumber, pin, startingDeposit);
+		accounts.put(accountNumber, account);
+        return accountNumber;
 	}
 
 	public Long openConsumerAccount(Person person, int pin, double startingDeposit) {
 		// complete the function
-        return -1L;
+		Account lastAccount =getLast();
+		Long accountNumber = lastAccount == null ? 1l : lastAccount.getAccountNumber()+1;
+		ConsumerAccount account = new ConsumerAccount(person, accountNumber, pin, startingDeposit);
+		accounts.put(accountNumber, account);
+        return accountNumber;
 	}
+
+	private Account getLast()
+	{
+		int count = 1;
+
+		for (Map.Entry<Long, Account> it :
+				accounts.entrySet()) {
+
+			if (count == accounts.size()) {
+				return it.getValue();
+			}
+			count++;
+		}
+        return null;
+    }
 
 	public boolean authenticateUser(Long accountNumber, int pin) {
 		// complete the function
@@ -35,7 +62,7 @@ public class Bank implements BankInterface {
 
 	public double getBalance(Long accountNumber) {
 		// complete the function
-        return -1;
+        return accounts.get(accountNumber).getBalance();
 	}
 
 	public void credit(Long accountNumber, double amount) {
