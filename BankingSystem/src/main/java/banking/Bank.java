@@ -67,6 +67,9 @@ public class Bank implements BankInterface {
 
 	public void credit(Long accountNumber, double amount) {
 		// complete the function
+		Account account = accounts.get(accountNumber);
+		account.setBalance(account.getBalance()+amount);
+		accounts.put(accountNumber, account);
 	}
 
 	public boolean debit(Long accountNumber, double amount) {
@@ -74,6 +77,7 @@ public class Bank implements BankInterface {
 		Account account = accounts.get(accountNumber);
 		if(account.getBalance()>=amount){
 			account.setBalance(account.getBalance()-amount);
+			accounts.put(accountNumber, account);
 			return true;
 		}
         else
