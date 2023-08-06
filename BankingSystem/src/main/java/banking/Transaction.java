@@ -9,6 +9,7 @@ package banking;
 public class Transaction {
 	private Long accountNumber;
 	private Bank bank;
+	private Account account;
 
 	/**
 	 *
@@ -23,19 +24,27 @@ public class Transaction {
 	 */
 	public Transaction(Bank bank, Long accountNumber, int attemptedPin) throws Exception {
 		// complete the function
+		this.account = bank.getAccount(accountNumber);
+		if(!account.validatePin(attemptedPin))
+			throw new Exception();
 	}
 
 	public double getBalance() {
 		// complete the function
-        return -1;
+        return this.account.getBalance();
 	}
 
 	public void credit(double amount) {
 		// complete the function
+		this.account.setBalance(this.account.getBalance()+amount);
 	}
 
 	public boolean debit(double amount) {
 		// complete the function
-        return true;
+		if(this.account.getBalance()>=amount) {
+			this.account.setBalance(this.account.getBalance() - amount);
+			return true;
+		} else
+        return false;
 	}
 }
